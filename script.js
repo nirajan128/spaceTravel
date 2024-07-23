@@ -80,36 +80,74 @@ function moveSpaceShip(){
     })
 }
 
+/* This method uses set interval, runs the code inside it every two second
+   which creates an asteroid element using SVG, it creates two svg element, asteroid is the svg container and rock is the rect that is inside asteroid
+   Then random height width and  radius is created. Attributes are added to asteroid element and  and its position is set randomly(between 0 and screen width) to left
+   Then Atrributes for rext(rock) is added and, the rock element is added to asteroid element, which then is added to the container
+*/
 function createAsteroid(){
+
     setInterval(()=>{
       const asteroid = document.createElementNS("http://www.w3.org/2000/svg", 'svg');
       const rock = document.createElementNS("http://www.w3.org/2000/svg", 'rect');
-      let randomRockHeight = Math.random()*5+20;
-      let randomRockWidth = Math.random()*5+20;
+
+      //random height,width, and radius for asteroid rock
+      let randomRockHeight = Math.random()*5+30;
+      let randomRockWidth = Math.random()*5+30;
       let randomRockRadius1 = Math.floor(Math.random()*3) + 6;
       let randomRockRadius2 = Math.floor(Math.random()*6) + 3;
      
+      //svg element attributes
+     asteroid.classList.add("asteroid", "svg-responsive");
+     asteroid.setAttribute("width", "100");
+     asteroid.setAttribute("height", "100");
+     asteroid.setAttribute("viewBox", "0 0 100 100");
+
+     //random position for svg - random sizes between 0 and windows(screen) width
+     asteroid.style.left = `${Math.random() * window.innerWidth}px`;
+     asteroid.style.top= "-100px";
+
+     //asteroid rock attributes
+     rock.setAttribute("height", `${randomRockHeight}`);
+     rock.setAttribute("width", `${randomRockWidth}`);
+     rock.setAttribute('fill', 'url(#asteroidGradient1)');
+     rock.setAttribute("rx", `${randomRockRadius1}`);
+     rock.setAttribute("ry", `${randomRockRadius2}`)
      
-      
-        
-        asteroid.classList.add("asteroid", "svg-responsive");
-        asteroid.setAttribute("width", "100");
-        asteroid.setAttribute("height", "100");
-        asteroid.setAttribute("viewBox", "0 0 100 100");
+     
+     rock.addEventListener("click", (e)=>{
+        console.log("damn")
+         let node = e.target;
+         node.parentElement.removeChild(node)
+     })
+     
 
-        asteroid.style.left = `${Math.random() * window.innerWidth}px`;
-
-        rock.setAttribute("height", `${randomRockHeight}`);
-        rock.setAttribute("width", `${randomRockWidth}`);
-        rock.setAttribute('fill', 'url(#asteroidGradient1)');
-       rock.setAttribute("rx", `${randomRockRadius1}`);
-       rock.setAttribute("ry", `${randomRockRadius2}`)
-
-        asteroid.appendChild(rock);
-        container.appendChild(asteroid);
-
+     asteroid.appendChild(rock); //adds rock element to asteroid(SVG)
+     container.appendChild(asteroid); //adds astorid to container element
+     asteroidFall(asteroid);
     
-    },1000)
+    },500)
+}
+
+
+
+function asteroidFall(asteroid){
+    console.log("Fallllll")
+    
+    let asteroidFallSpeed = 2;
+
+    const fallInterval = setInterval(()=>{
+        let eachAsteroidPosition = parseFloat(asteroid.style.top);
+        if(eachAsteroidPosition > window.innerHeight){
+            container.removeChild(asteroid);
+            clearInterval(fallInterval);
+        }else{
+            asteroid.style.top=`${eachAsteroidPosition+=asteroidFallSpeed}px`
+        }
+    }, 16)
+
+   
+   
 }
 
 

@@ -61,7 +61,7 @@
     transform: translateX(-50%);
     width: 10%;
     z-index: 100;
-    animation: rotate 5s linear infinite; /* Rotation animation */
+    animation: rotate 10s linear infinite; /* Rotation animation */
 }
 
 @keyframes rotate {
