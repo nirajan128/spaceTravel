@@ -84,6 +84,9 @@ function moveSpaceShip(){
     })
 }
 
+/**This method contains click eventlistner for arrow left and right for mobile which changes the position of spacesphip according,
+ * follows the same logic as moveSpaceShip.
+ */
 function mobileControls(){
 
     let shipWidth = spaceShip.offsetWidth; //width of the ship
@@ -92,7 +95,7 @@ function mobileControls(){
     let screenWidth = window.innerWidth; //gets the width value of the whole screen
     console.log(screenWidth);
 
-    let movementValue = 10; //value to move when a key is pressed
+    let movementValue = 5; //value to move when a key is pressed
     leftArrow.addEventListener("click", ()=>{
         let shipLeftPosition = spaceShip.offsetLeft; //gets the initial oeft position of spaceShip
         console.log(shipLeftPosition);

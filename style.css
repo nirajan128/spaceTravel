@@ -83,5 +83,11 @@
 .controls{
   position: absolute;
   top: 77vh;
-  background: none;
+  z-index: 300;
+}
+
+@media (min-width:769px){
+  .controls{
+    display: none !important;
+  }
 }
