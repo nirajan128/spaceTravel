@@ -14,7 +14,7 @@
     </div>
     <div class="full-screen" id="game-space">
         <div id="spaceShip">
-            <svg width="100" height="100" viewbox="0 0 100 100" class="svg-responsive">
+            <svg width="50" height="50" viewbox="0 0 100 100">
                 <!-- Defs is a element container for reuseable element in svg, in this case i have uses linear gradient for space ship body
                  The linear gradient has a special id and position x1,x2(starting position from left),y1,y2(ending position at right) to detarmine the position
                  each stop elemnt defines the color and position within the gradient, offset is used to determine the gradient length
@@ -34,7 +34,7 @@
                 </defs>
                 <g>
                     <!-- Body -->
-                 <circle cx="50" cy="50" r="50" fill="url(#bodyGradient)" class="rotateAnimation"></circle>
+                 <circle cx="50" cy="50" r="50" fill="url(#bodyGradient)"></circle>
                  <circle cx="50" cy="50" r="25" fill="grey"></circle>
                 </g>
             </svg>
@@ -43,6 +43,14 @@
             <button id="leftArrow" class="btn bg-dark text-light shadow-none" onclick="mobileControls()"><i class="fas fa-arrow-circle-left"></i></button>
             <button id="rightArrow" class="btn bg-dark text-light"  onclick="mobileControls()"><i class="fas fa-arrow-circle-right"></i></button>
         </div>
+    </div>
+
+    <div id="gameOver" class="gameOver bg-light">
+        <div class="g-container d-flex justify-content-center flex-column align-items-center bg-light">
+            <h1>Game over</h1>
+            <button class="btn btn-success mb-2" id="restart">Restart</button>
+        </div>
+        
     </div>
 
    

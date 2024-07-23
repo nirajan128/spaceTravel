@@ -3,16 +3,24 @@ const container = document.getElementById("game-space");
 const spaceShip = document.getElementById("spaceShip");
 const leftArrow = document.getElementById("leftArrow");
 const rightArrow = document.getElementById("rightArrow");
+const gameOver = document.getElementById("gameOver");
+const restartBtn = document.getElementById("restart");
+let isGameOver = false;
 
-document.querySelector(".startButton").addEventListener('click', ()=>{
-    console.log("clicked")
-    document.getElementById("startScreen").style.display="none";
-    document.getElementById("game-space").style.display="block";
-    addStar(100);
-    moveSpaceShip();
-    createAsteroid();
-    mobileControls();
-})
+
+window.addEventListener("DOMContentLoaded", startGame)
+
+function startGame(){
+    document.querySelector(".startButton").addEventListener('click', ()=>{
+        console.log("clicked")
+        document.getElementById("startScreen").style.display="none";
+        document.getElementById("game-space").style.display="block";
+        addStar(100);
+        moveSpaceShip();
+        createAsteroid();
+        mobileControls();
+    })
+}
 
 /**
  * This method creates a div element add star class to it and random height width and position to create a star.
@@ -120,6 +128,8 @@ function mobileControls(){
 */
 function createAsteroid(){
 
+    if(isGameOver)return; //if isGame over true dont create any asteroids
+
     setInterval(()=>{
       const asteroid = document.createElementNS("http://www.w3.org/2000/svg", 'svg');
       const rock = document.createElementNS("http://www.w3.org/2000/svg", 'rect');
@@ -132,9 +142,9 @@ function createAsteroid(){
      
       //svg element attributes
      asteroid.classList.add("asteroid", "svg-responsive");
-     asteroid.setAttribute("width", "100");
-     asteroid.setAttribute("height", "100");
-     asteroid.setAttribute("viewBox", "0 0 100 100");
+     asteroid.setAttribute("width", `${randomRockWidth}`);
+     asteroid.setAttribute("height", `${randomRockHeight}`);
+     asteroid.setAttribute("viewBox", `0 0 ${randomRockWidth} ${randomRockHeight} `);
 
      //random position for svg - random sizes between 0 and windows(screen) width
      asteroid.style.left = `${Math.random() * window.innerWidth}px`;
@@ -148,18 +158,18 @@ function createAsteroid(){
      rock.setAttribute("ry", `${randomRockRadius2}`)
      
      
-     rock.addEventListener("click", (e)=>{
+   /*   rock.addEventListener("click", (e)=>{
         console.log("damn")
          let node = e.target;
          node.parentElement.removeChild(node)
-     })
+     }) */
      
 
      asteroid.appendChild(rock); //adds rock element to asteroid(SVG)
      container.appendChild(asteroid); //adds astorid to container element
      asteroidFall(asteroid);
     
-    },500)
+    },2000)
 }
 
 
@@ -173,9 +183,8 @@ function createAsteroid(){
  */
 function asteroidFall(asteroid){
     console.log("Fallllll")
-    
     let asteroidFallSpeed = 2; //fall speed
-
+    if(isGameOver) return;
     const fallInterval = setInterval(()=>{ 
         let eachAsteroidPosition = parseFloat(asteroid.style.top); //gets the top value of asteroid and converts it into float
         if(eachAsteroidPosition > window.innerHeight){ //if the top value is greater than inner height stops the inerval and remove thes the asteroid
@@ -183,12 +192,44 @@ function asteroidFall(asteroid){
             clearInterval(fallInterval);
         }else{ //else updates asteroid top value each time by adding fall speed
             asteroid.style.top=`${eachAsteroidPosition+=asteroidFallSpeed}px`
+            if(hasCollided(spaceShip,asteroid)){
+                gameIsOver();
+                clearInterval(fallInterval);
+            }
         }
     }, 16)
 
    
    
 }
+
+function hasCollided(spaceShip, asteroid){
+    let theShip = spaceShip.getBoundingClientRect();
+    let theAsteroid = asteroid.getBoundingClientRect();
+    let collisionCOndition  = !(
+         theShip.left > theAsteroid.right ||
+         theShip.right < theAsteroid.left ||
+         theShip.top > theAsteroid.bottom ||
+         theShip.bottom < theAsteroid.top
+    );
+
+    return collisionCOndition;
+}
+
+
+function gameIsOver(){
+    isGameOver = true;
+    gameOver.style.display = "block";
+    restartBtn.addEventListener("click", restartGame);
+}
+
+
+function restartGame(){
+isGameOver =false;
+ location.reload();
+}
+
+
 
 
 

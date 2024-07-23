@@ -50,18 +50,13 @@
 
 /* Space ship style */
 
-.svg-responsive{
-  width: 12vw;
-}
-
 #spaceShip{
     position: absolute;
     bottom: 50px;
     left: 50%;
     transform: translateX(-50%);
-    width: 10%;
     z-index: 100;
-    animation: rotate 10s linear infinite; /* Rotation animation */
+   /*  animation: rotate 10s linear infinite; /* Rotation animation */
 }
 
 @keyframes rotate {
@@ -90,4 +85,12 @@
   .controls{
     display: none !important;
   }
+}
+
+/* Game over sreen */
+.gameOver{
+  display: none;
+  position: fixed;
+  top: 50%;
+  width: 100vw;
 }
