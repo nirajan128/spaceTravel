@@ -1,5 +1,9 @@
 
 const container = document.getElementById("game-space");
+const spaceShip = document.getElementById("spaceShip");
+const leftArrow = document.getElementById("leftArrow");
+const rightArrow = document.getElementById("rightArrow");
+
 document.querySelector(".startButton").addEventListener('click', ()=>{
     console.log("clicked")
     document.getElementById("startScreen").style.display="none";
@@ -7,6 +11,7 @@ document.querySelector(".startButton").addEventListener('click', ()=>{
     addStar(100);
     moveSpaceShip();
     createAsteroid();
+    mobileControls();
 })
 
 /**
@@ -40,7 +45,6 @@ function createStar(){
  * @param {} numberOfStar numbers of star
  */
 function addStar(numberOfStar){
-    const container = document.getElementById("game-space");
     for(let i=0;i<numberOfStar;i++){  
         container.appendChild(createStar());
     }
@@ -57,8 +61,7 @@ function addStar(numberOfStar){
 function moveSpaceShip(){
     document.addEventListener("keydown", (e)=>{
           console.log(e.key); //check which key is pressed
-          const spaceShip = document.getElementById("spaceShip");
-
+          
           let shipLeftPosition = spaceShip.offsetLeft; //gets the initial oeft position of spaceShip
           console.log(shipLeftPosition);
 
@@ -77,7 +80,33 @@ function moveSpaceShip(){
           else if(e.key==="ArrowRight" && shipLeftPosition + shipWidth < screenWidth){ //ensures that the spaceship does not go off screen
             spaceShip.style.left = `${shipLeftPosition + movementValue}px` //shipsLeftPosition + movementValue which shifts the ship to the right
           }
+
     })
+}
+
+function mobileControls(){
+
+    let shipLeftPosition = spaceShip.offsetLeft; //gets the initial oeft position of spaceShip
+    console.log(shipLeftPosition);
+
+    let shipWidth = spaceShip.offsetWidth; //width of the ship
+    console.log(shipWidth);
+    
+    let screenWidth = window.innerWidth; //gets the width value of the whole screen
+    console.log(screenWidth);
+
+    let movementValue = 10; //value to move when a key is pressed
+    leftArrow.addEventListener("click", ()=>{
+        if(shipLeftPosition>0){
+            spaceShip.style.left = `${shipLeftPosition - movementValue}px`
+        }
+      });
+
+      rightArrow.addEventListener("click", ()=>{
+        if(shipLeftPosition + shipWidth < screenWidth){
+            spaceShip.style.left = `${shipLeftPosition + movementValue}px`
+        }
+      })
 }
 
 /* This method uses set interval, runs the code inside it every two second
@@ -130,18 +159,25 @@ function createAsteroid(){
 }
 
 
-
+/**
+ * This method makes the asteroid fall by adding falling speed to asteroid top position until each reaches the windows(screen) height
+ * and removes the asteroid.
+ * The method uses setInterval, in each interval it gets the top position of asteroid , height value of screen  reuns an if lese statment 
+ * to check if asteroid top position is greater than windows height if it its it removes the asteroid from the container and stop the interval
+ * if not the sets the top position of asteroid by adding top position with falling speed in eac
+ * @param {} asteroid 
+ */
 function asteroidFall(asteroid){
     console.log("Fallllll")
     
-    let asteroidFallSpeed = 2;
+    let asteroidFallSpeed = 2; //fall speed
 
-    const fallInterval = setInterval(()=>{
-        let eachAsteroidPosition = parseFloat(asteroid.style.top);
-        if(eachAsteroidPosition > window.innerHeight){
+    const fallInterval = setInterval(()=>{ 
+        let eachAsteroidPosition = parseFloat(asteroid.style.top); //gets the top value of asteroid and converts it into float
+        if(eachAsteroidPosition > window.innerHeight){ //if the top value is greater than inner height stops the inerval and remove thes the asteroid
             container.removeChild(asteroid);
             clearInterval(fallInterval);
-        }else{
+        }else{ //else updates asteroid top value each time by adding fall speed
             asteroid.style.top=`${eachAsteroidPosition+=asteroidFallSpeed}px`
         }
     }, 16)
