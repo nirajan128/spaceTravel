@@ -86,9 +86,6 @@ function moveSpaceShip(){
 
 function mobileControls(){
 
-    let shipLeftPosition = spaceShip.offsetLeft; //gets the initial oeft position of spaceShip
-    console.log(shipLeftPosition);
-
     let shipWidth = spaceShip.offsetWidth; //width of the ship
     console.log(shipWidth);
     
@@ -97,12 +94,16 @@ function mobileControls(){
 
     let movementValue = 10; //value to move when a key is pressed
     leftArrow.addEventListener("click", ()=>{
+        let shipLeftPosition = spaceShip.offsetLeft; //gets the initial oeft position of spaceShip
+        console.log(shipLeftPosition);
         if(shipLeftPosition>0){
             spaceShip.style.left = `${shipLeftPosition - movementValue}px`
         }
       });
 
       rightArrow.addEventListener("click", ()=>{
+        let shipLeftPosition = spaceShip.offsetLeft; //gets the initial oeft position of spaceShip
+        console.log(shipLeftPosition);
         if(shipLeftPosition + shipWidth < screenWidth){
             spaceShip.style.left = `${shipLeftPosition + movementValue}px`
         }
