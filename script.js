@@ -1,13 +1,20 @@
 
+const container = document.getElementById("game-space");
 document.querySelector(".startButton").addEventListener('click', ()=>{
     console.log("clicked")
     document.getElementById("startScreen").style.display="none";
     document.getElementById("game-space").style.display="block";
     addStar(100);
     moveSpaceShip();
+    createAsteroid();
 })
 
-
+/**
+ * This method creates a div element add star class to it and random height width and position to create a star.
+ * String literals is used when setting the style properties
+ * @returns div element star
+ * 
+ */
 function createStar(){
     const star = document.createElement("div"); //creates a div element
     star.classList.add("star"); //adds star class to the div element
@@ -26,14 +33,27 @@ function createStar(){
     return star;
 }
 
+/**
+ * This method create number of start based on the parameter number of star,
+ * it select the container first and uses for loop which runs numberOfSTart time and for each iteration
+ * the container appends the child element hich isthe star, called from createStar() method
+ * @param {} numberOfStar numbers of star
+ */
 function addStar(numberOfStar){
     const container = document.getElementById("game-space");
-    for(i=0;i<numberOfStar;i++){  
+    for(let i=0;i<numberOfStar;i++){  
         container.appendChild(createStar());
     }
 }
 
 
+/**
+ * This method moves the spaceship to right or left, it uses "keydown" eventlistner which is a listner for when user presses a key,
+ * an arrow function used to determined what happens when a key is pressed by user.
+ * 
+ * the method gets the initial position of ship, widthth of the sipt, width of the screen and checks the condition that
+ * if the key is ArrowRight change the position of space ship accordings and if it is ArrowLeft change the position accordingly
+ */
 function moveSpaceShip(){
     document.addEventListener("keydown", (e)=>{
           console.log(e.key); //check which key is pressed
@@ -51,11 +71,46 @@ function moveSpaceShip(){
           let movementValue = 10; //value to move when a key is pressed
           
           //if event.key is arrowLeft and ships currnet position is gretaer tha 0 move the ship to left value (shipCurrentPosition - movement value)
-          if(e.key==="ArrowLeft" && shipLeftPosition>0){
-            spaceShip.style.left = `${shipLeftPosition - movementValue}px`
+          if(e.key==="ArrowLeft" && shipLeftPosition>0){ //ensures that the spaceship does not go off screen
+            spaceShip.style.left = `${shipLeftPosition - movementValue}px` //shipsLeftposition - movement value which shifts the space ship to left
           }
-          else if(e.key==="ArrowRight" && shipLeftPosition + shipWidth < screenWidth){
-            spaceShip.style.left = `${shipLeftPosition + movementValue}px`
+          else if(e.key==="ArrowRight" && shipLeftPosition + shipWidth < screenWidth){ //ensures that the spaceship does not go off screen
+            spaceShip.style.left = `${shipLeftPosition + movementValue}px` //shipsLeftPosition + movementValue which shifts the ship to the right
           }
     })
 }
+
+function createAsteroid(){
+    setInterval(()=>{
+      const asteroid = document.createElementNS("http://www.w3.org/2000/svg", 'svg');
+      const rock = document.createElementNS("http://www.w3.org/2000/svg", 'rect');
+      let randomRockHeight = Math.random()*5+20;
+      let randomRockWidth = Math.random()*5+20;
+      let randomRockRadius1 = Math.floor(Math.random()*3) + 6;
+      let randomRockRadius2 = Math.floor(Math.random()*6) + 3;
+     
+     
+      
+        
+        asteroid.classList.add("asteroid", "svg-responsive");
+        asteroid.setAttribute("width", "100");
+        asteroid.setAttribute("height", "100");
+        asteroid.setAttribute("viewBox", "0 0 100 100");
+
+        asteroid.style.left = `${Math.random() * window.innerWidth}px`;
+
+        rock.setAttribute("height", `${randomRockHeight}`);
+        rock.setAttribute("width", `${randomRockWidth}`);
+        rock.setAttribute('fill', 'url(#asteroidGradient1)');
+       rock.setAttribute("rx", `${randomRockRadius1}`);
+       rock.setAttribute("ry", `${randomRockRadius2}`)
+
+        asteroid.appendChild(rock);
+        container.appendChild(asteroid);
+
+    
+    },1000)
+}
+
+
+

@@ -72,3 +72,9 @@
     transform: translateX(-50%) rotate(360deg);
   }
 }
+
+/* asteroid */
+.asteroid{
+  position: absolute;
+  top: 0;
+}
