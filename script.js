@@ -8,12 +8,13 @@ const restartBtn = document.getElementById("restart");
 const distanceValueContainer = document.getElementById("travel");
 const score = document.getElementById("distance");
 const scoreDetail = document.getElementById("scoreDetail");
-const fuelElement = document.getElementById("fuel");
-const fuelScore = document.getElementById("fuelValue");
+const matterDetail = document.getElementById("matterDetail");
+const antiMatterElement = document.getElementById("antiMatter");
+const anitMatterScore = document.getElementById("antiMatterValue");
 
 let distanceValue = 0.0;
 let distanceInterval;
-let fuelValue = 10;
+let matterValue = 0;
 let fuelInterval;
 let isGameOver = false;
 
@@ -26,13 +27,13 @@ function startGame(){
         document.getElementById("startScreen").style.display="none";
         document.getElementById("game-space").style.display="block";
         distanceValueContainer.style.display="block";
-        fuelElement.style.display="block";
+        antiMatterElement.style.display="flex";
         addStar(100);
         moveSpaceShip();
         createAsteroid();
         mobileControls();
         startDistanceScore();
-        starFuelScore();
+        createAntiMatterElement()
     })
 }
 
@@ -147,19 +148,21 @@ function createAsteroid(){
     setInterval(()=>{
       const asteroid = document.createElementNS("http://www.w3.org/2000/svg", 'svg');
       const rock = document.createElementNS("http://www.w3.org/2000/svg", 'rect');
+   
+        //random height,width, and radius for asteroid rock
+        let randomRockHeight = Math.random()*5+30;
+        let randomRockWidth = Math.random()*5+30;
+        let randomRockRadius1 = Math.floor(Math.random()*3) + 6;
+        let randomRockRadius2 = Math.floor(Math.random()*6) + 3;
 
-      //random height,width, and radius for asteroid rock
-      let randomRockHeight = Math.random()*5+30;
-      let randomRockWidth = Math.random()*5+30;
-      let randomRockRadius1 = Math.floor(Math.random()*3) + 6;
-      let randomRockRadius2 = Math.floor(Math.random()*6) + 3;
-     
+
       //svg element attributes
      asteroid.classList.add("asteroid", "svg-responsive");
      asteroid.setAttribute("width", `${randomRockWidth}`);
      asteroid.setAttribute("height", `${randomRockHeight}`);
      asteroid.setAttribute("viewBox", `0 0 ${randomRockWidth} ${randomRockHeight} `);
 
+    
      //random position for svg - random sizes between 0 and windows(screen) width
      asteroid.style.left = `${Math.random() * window.innerWidth}px`;
      asteroid.style.top= "-100px";
@@ -171,14 +174,7 @@ function createAsteroid(){
      rock.setAttribute("rx", `${randomRockRadius1}`);
      rock.setAttribute("ry", `${randomRockRadius2}`)
      
-     
-   /*   rock.addEventListener("click", (e)=>{
-        console.log("damn")
-         let node = e.target;
-         node.parentElement.removeChild(node)
-     }) */
-     
-
+   
      asteroid.appendChild(rock); //adds rock element to asteroid(SVG)
      container.appendChild(asteroid); //adds astorid to container element
      asteroidFall(asteroid);
@@ -186,6 +182,45 @@ function createAsteroid(){
     },2000)
 }
 
+function createAntiMatterElement(){
+    setInterval(()=>{
+        const antiMatterContainer = document.createElementNS("http://www.w3.org/2000/svg", 'svg');
+        const antiMatter= document.createElementNS("http://www.w3.org/2000/svg", 'circle');
+
+          //random height,width, and radius for asteroid rock
+      let randomFuelHeight = Math.random()*5+30;
+      let randomFuelWidth = Math.random()*5+30;
+     antiMatterContainer.classList.add("fuel", "svg-responsive");
+     antiMatterContainer.setAttribute("width", `${randomFuelWidth}`);
+     antiMatterContainer.setAttribute("height", `${randomFuelHeight}`);
+     antiMatterContainer.setAttribute("viewBox", `0 0 25 25`);
+
+
+     antiMatter.setAttribute("r", "25");
+     antiMatter.setAttribute("cx", `${randomFuelHeight}`);
+     antiMatter.setAttribute("ry", `${randomFuelWidth}`);
+     antiMatter.setAttribute("fill", "green")
+
+     
+     //random position for svg - random sizes between 0 and windows(screen) width
+     antiMatterContainer.style.left = `${Math.random() * window.innerWidth}px`;
+     antiMatterContainer.style.top= "-100px";
+
+       
+     antiMatterContainer.addEventListener("click", (e)=>{
+        console.log("damnFuel");
+        let node= e.target
+         matterValue+=1;
+         updateMatterScore();
+         node.parentElement.removeChild(node)
+     }) 
+
+     antiMatterContainer.appendChild(antiMatter);
+     container.appendChild(antiMatterContainer);
+     antiMatterFall(antiMatterContainer)
+    },5000)
+    
+}
 
 /**
  * This method makes the asteroid fall by adding falling speed to asteroid top position until each reaches the windows(screen) height
@@ -211,10 +246,24 @@ function asteroidFall(asteroid){
                 clearInterval(fallInterval);
             }
         }
-    }, 16)
+    }, 16)  
+}
 
-   
-   
+function antiMatterFall(antiMatterContainer){
+  console.log("fueeeel fall");
+  let fallSpeed = 3;
+  if(isGameOver) return;
+  const fuelFallInterval = setInterval(()=>{
+       let eachFuelPosition = parseFloat(antiMatterContainer.style.top);
+       if(eachFuelPosition > window.innerHeight){
+        if(container.contains(antiMatterContainer)){
+            container.removeChild(antiMatterContainer)
+        }
+        clearInterval(fuelFallInterval)
+       }else{
+         antiMatterContainer.style.top = `${eachFuelPosition+=fallSpeed}px`
+       }
+  }, 20) 
 }
 
 
@@ -222,28 +271,20 @@ function asteroidFall(asteroid){
  * This method dispalys the distance travelled by spaceShip,
  * it uses setInterval method which  incremnet the display value by 0.1 and set the score innerHtml to the distance value evey 2 second
  */
-function startDistanceScore(){
+ function startDistanceScore(){
     distanceInterval = setInterval(()=>{
          distanceValue+=0.1
          score.innerHTML= " " + distanceValue.toFixed(1) + " LY"; 
-    },2000)
+    },5000)
     
+} 
+
+
+function updateMatterScore(){
+    anitMatterScore.innerHTML = matterValue;
 }
-
-function starFuelScore(){
-    fuelInterval = setInterval(()=>{
-        fuelValue-=1;
-        fuelScore.innerHTML = fuelValue;
-        if(fuelValue == 0){
-            gameIsOver();
-            clearInterval(fuelInterval)
-        }
-
-    }, 3000)
-}
-
 /**
- * This method stops the interval
+ * This method stops the interval for distance and fuel
  */
 function stopIntervals(){
     clearInterval(distanceInterval);
@@ -286,6 +327,7 @@ function gameIsOver(){
     isGameOver = true;
     gameOver.style.display = "block";
     scoreDetail.innerHTML = " You travlled " + distanceValue.toFixed(1) + " LY";
+    matterDetail.innerHTML = " collected " + matterValue + " antiMatters";
     restartBtn.addEventListener("click", restartGame);
     stopIntervals();
 }

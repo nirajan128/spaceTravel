@@ -74,6 +74,11 @@
   top: 0;
 }
 
+.fuel{
+  position: absolute;
+  top: 0;
+}
+
 /* mobile-controls */
 .controls{
   position: absolute;
@@ -97,7 +102,7 @@
   top: 10px;
   right: 40px;
 }
-#fuel{
+#antiMatter{
   display: none;
   color: white;
   position: fixed;
