@@ -1,27 +1,60 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap');
 *{
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
+.orbitron {
+  font-family: "Orbitron", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 700;
+  font-style: normal;
+}
+
+.space-mono-regular {
+  font-family: "Space Mono", monospace;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.space-mono-bold {
+  font-family: "Space Mono", monospace;
+  font-weight: 700;
+  font-style: normal;
+}
+
+h1{
+  font-size: 2em !important;
+}
 /* Start screen of the game */
 .startScreen{
+  position: relative;
   height: 100vh;
   width: 100vw;
   background-color: #000;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 }
 
 .startButton{
   background-color: #1e90ff;
-  color: #fff;
+  color: black;
   border: none;
-  padding: 20px;
+  width: 80px;
+  height: 40px;
+  padding: 2px;
   font-size: 20px;
   cursor: pointer;
   border-radius: 5px;
+}
+
+.startButton:hover{
+ background: linear-gradient(90deg, rgba(131,58,180,1) 0%, rgba(253,29,29,1) 50%, rgba(252,176,69,1) 100%);
+ transition: 1s ease-out;
 }
 
 /* game-background elements and animations */
@@ -43,10 +76,7 @@
     
   }
 
-  @keyframes twinkle {
-    0%, 100% { opacity: 0.8; }
-    50% { opacity: 0.2; }
-}
+
 
 /* Space ship style */
 
@@ -59,14 +89,7 @@
    /*  animation: rotate 10s linear infinite; /* Rotation animation */
 }
 
-@keyframes rotate {
-  0% {
-    transform: translateX(-50%) rotate(0deg);
-  }
-  100% {
-    transform: translateX(-50%) rotate(360deg);
-  }
-}
+
 
 /* asteroid */
 .asteroid{
@@ -110,12 +133,53 @@
   right: 40px;
 }
 
+.gameName{
+  animation: floating 3s ease-in-out infinite;
+}
+
+.credit{
+  position: absolute;
+  top: 80vh;
+}
+@keyframes rotate {
+  0% {
+    transform: translateX(-50%) rotate(0deg);
+  }
+  100% {
+    transform: translateX(-50%) rotate(360deg);
+  }
+}
+
+@keyframes twinkle {
+  0%, 100% { opacity: 0.8; }
+  50% { opacity: 0.2; }
+}
+
+@keyframes floating {
+  0%{
+    transform: translateY(0);
+  }
+  50%{
+    transform: translateY(-20px);
+  }
+  100%{
+    transform: translateY(0);
+  }
+}
 
 /* Fuel */
 
 @media (min-width:769px){
   .controls{
     display: none !important;
+  }
+  h1{
+    font-size: 6.5em !important;
+  }
+
+  .startButton{
+    width: 120px;
+    height: 60px;
   }
 }
 
