@@ -7,10 +7,14 @@ const gameOver = document.getElementById("gameOver");
 const restartBtn = document.getElementById("restart");
 const distanceValueContainer = document.getElementById("travel");
 const score = document.getElementById("distance");
-const scoreDetail = document.getElementById("scoreDetail")
+const scoreDetail = document.getElementById("scoreDetail");
+const fuelElement = document.getElementById("fuel");
+const fuelScore = document.getElementById("fuelValue");
 
 let distanceValue = 0.0;
 let distanceInterval;
+let fuelValue = 10;
+let fuelInterval;
 let isGameOver = false;
 
 
@@ -22,11 +26,13 @@ function startGame(){
         document.getElementById("startScreen").style.display="none";
         document.getElementById("game-space").style.display="block";
         distanceValueContainer.style.display="block";
+        fuelElement.style.display="block";
         addStar(100);
         moveSpaceShip();
         createAsteroid();
         mobileControls();
         startDistanceScore();
+        starFuelScore();
     })
 }
 
@@ -212,6 +218,10 @@ function asteroidFall(asteroid){
 }
 
 
+/**
+ * This method dispalys the distance travelled by spaceShip,
+ * it uses setInterval method which  incremnet the display value by 0.1 and set the score innerHtml to the distance value evey 2 second
+ */
 function startDistanceScore(){
     distanceInterval = setInterval(()=>{
          distanceValue+=0.1
@@ -220,8 +230,24 @@ function startDistanceScore(){
     
 }
 
-function stopDistance(){
+function starFuelScore(){
+    fuelInterval = setInterval(()=>{
+        fuelValue-=1;
+        fuelScore.innerHTML = fuelValue;
+        if(fuelValue == 0){
+            gameIsOver();
+            clearInterval(fuelInterval)
+        }
+
+    }, 3000)
+}
+
+/**
+ * This method stops the interval
+ */
+function stopIntervals(){
     clearInterval(distanceInterval);
+    clearInterval(fuelInterval)
 }
 
 
@@ -252,14 +278,16 @@ function hasCollided(spaceShip, asteroid){
 }
 
 /**
- * This is gameoOver method , which displays the game over screen, set isGameOver to true, and adds an click eventlister to restart button which calls restartGame method
+ * This is gameoOver method , which displays the game over screen, set isGameOver to true,
+ * sets the scoreDetail innerHtml to distanceValue, calls stopDistance() method and
+ *  adds an click eventlister to restart button which calls restartGame method
  */
 function gameIsOver(){
     isGameOver = true;
     gameOver.style.display = "block";
     scoreDetail.innerHTML = " You travlled " + distanceValue.toFixed(1) + " LY";
     restartBtn.addEventListener("click", restartGame);
-    stopDistance();
+    stopIntervals();
 }
 
 

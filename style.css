@@ -97,6 +97,16 @@
   top: 10px;
   right: 40px;
 }
+#fuel{
+  display: none;
+  color: white;
+  position: fixed;
+  top: 40px;
+  right: 40px;
+}
+
+
+/* Fuel */
 
 @media (min-width:769px){
   .controls{
