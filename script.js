@@ -5,6 +5,12 @@ const leftArrow = document.getElementById("leftArrow");
 const rightArrow = document.getElementById("rightArrow");
 const gameOver = document.getElementById("gameOver");
 const restartBtn = document.getElementById("restart");
+const distanceValueContainer = document.getElementById("travel");
+const score = document.getElementById("distance");
+const scoreDetail = document.getElementById("scoreDetail")
+
+let distanceValue = 0.0;
+let distanceInterval;
 let isGameOver = false;
 
 
@@ -15,10 +21,12 @@ function startGame(){
         console.log("clicked")
         document.getElementById("startScreen").style.display="none";
         document.getElementById("game-space").style.display="block";
+        distanceValueContainer.style.display="block";
         addStar(100);
         moveSpaceShip();
         createAsteroid();
         mobileControls();
+        startDistanceScore();
     })
 }
 
@@ -203,6 +211,33 @@ function asteroidFall(asteroid){
    
 }
 
+
+function startDistanceScore(){
+    distanceInterval = setInterval(()=>{
+         distanceValue+=0.1
+         score.innerHTML= " " + distanceValue.toFixed(1) + " LY"; 
+    },2000)
+    
+}
+
+function stopDistance(){
+    clearInterval(distanceInterval);
+}
+
+
+
+/**
+ * This method checks if the asteroid and spaceShip have collided meanin thier positions overlap each other.
+ * getBoundingClientRect() is used, it is a javascript method which returens positions(left, right,buttom, and top) and size
+ * of an element.
+ * there are two parameter spaceShip and asteroid thier positions are extracted using getBoundingClientRect() and a 
+ * boolean variable is craeated, if any of the condition meets the value becomes false since !() is used, which means there was no collison,
+ * if no condition meets then it means there is a collison the value beacons true.
+ * ANd finally the method returns the collison condition
+ * @param {*} spaceShip  the spaceShip
+ * @param {*} asteroid  the asteroid
+ * @returns boolean
+ */
 function hasCollided(spaceShip, asteroid){
     let theShip = spaceShip.getBoundingClientRect();
     let theAsteroid = asteroid.getBoundingClientRect();
@@ -216,17 +251,24 @@ function hasCollided(spaceShip, asteroid){
     return collisionCOndition;
 }
 
-
+/**
+ * This is gameoOver method , which displays the game over screen, set isGameOver to true, and adds an click eventlister to restart button which calls restartGame method
+ */
 function gameIsOver(){
     isGameOver = true;
     gameOver.style.display = "block";
+    scoreDetail.innerHTML = " You travlled " + distanceValue.toFixed(1) + " LY";
     restartBtn.addEventListener("click", restartGame);
+    stopDistance();
 }
 
 
+/**
+ * This method restarts the game set the isGameOver to false and uses location.reload() method to restart the whole game
+ */
 function restartGame(){
 isGameOver =false;
- location.reload();
+ location.reload(); //reload the whole page 
 }
 
 
