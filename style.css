@@ -33,8 +33,12 @@ h3{
   font-size: 1rem;
 }
 
-p, li, ul,button{
+p, li, ul{
   font-size: 0.875rem;
+}
+
+a{
+  font-size: 0.6rem;
 }
 /* Start screen of the game */
 .startScreen{
@@ -215,7 +219,7 @@ p, li, ul,button{
     font-size: 1.75rem;
   }
 
-  p,li,ul,button{
+  p,li,ul,a{
     font-size: 1.125rem;
   }
 
