@@ -28,6 +28,14 @@
 h1{
   font-size: 2em !important;
 }
+
+h3{
+  font-size: 1rem;
+}
+
+p, li, ul,button{
+  font-size: 0.875rem;
+}
 /* Start screen of the game */
 .startScreen{
   position: relative;
@@ -40,14 +48,14 @@ h1{
   align-items: center;
 }
 
-.startButton{
+.startButton, .playButton{
   background-color: #1e90ff;
   color: black;
   border: none;
   width: 80px;
   height: 40px;
   padding: 2px;
-  font-size: 20px;
+  font-size: 0.875rem;
   cursor: pointer;
   border-radius: 5px;
 }
@@ -56,6 +64,12 @@ h1{
  background: linear-gradient(90deg, rgba(131,58,180,1) 0%, rgba(253,29,29,1) 50%, rgba(252,176,69,1) 100%);
  transition: 1s ease-out;
 }
+
+.playButton:hover{
+  background: linear-gradient(90deg, rgba(131,58,180,1) 0%, rgba(253,29,29,1) 50%, rgba(252,176,69,1) 100%);
+  transition: 1s ease-out;
+ }
+
 
 /* game-background elements and animations */
 .full-screen {
@@ -89,6 +103,9 @@ h1{
    /*  animation: rotate 10s linear infinite; /* Rotation animation */
 }
 
+.gElem1{
+  z-index: 100;
+}
 
 
 /* asteroid */
@@ -115,6 +132,24 @@ h1{
   position: fixed;
   top: 50%;
   width: 100vw;
+}
+
+.gameInfo{
+  position: relative;
+  width: 100vw;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: black;
+  display: none;
+}
+
+.infoScreen{
+  width: 80%;
+  height: auto;
+  background-color: #D3D3D3;
 }
 
 /* Distance travelled */
@@ -176,10 +211,25 @@ h1{
   h1{
     font-size: 6.5em !important;
   }
+  h3{
+    font-size: 1.75rem;
+  }
+
+  p,li,ul,button{
+    font-size: 1.125rem;
+  }
 
   .startButton{
     width: 120px;
     height: 60px;
+  }
+
+  .gameInfo{
+    height: 100vh;
+  }
+
+  .startButton, .playButton{
+    font-size: 1.125rem;
   }
 }
 

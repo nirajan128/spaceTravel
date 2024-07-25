@@ -2,6 +2,7 @@
 const container = document.getElementById("game-space");
 const spaceShip = document.getElementById("spaceShip");
 const leftArrow = document.getElementById("leftArrow");
+const playScreen = document.getElementById("gameInfo");
 const rightArrow = document.getElementById("rightArrow");
 const gameOver = document.getElementById("gameOver");
 const restartBtn = document.getElementById("restart");
@@ -24,17 +25,25 @@ window.addEventListener("DOMContentLoaded", startGame)
 function startGame(){
     document.querySelector(".startButton").addEventListener('click', ()=>{
         console.log("clicked")
-        document.getElementById("startScreen").style.display="none";
+        document.getElementById("startScreen").style.display="none";  
+        playScreen.style.display="flex"
+        playGame();
+    })
+}
+
+function playGame(){
+    document.querySelector(".playButton").addEventListener('click', ()=>{
         document.getElementById("game-space").style.display="block";
         distanceValueContainer.style.display="block";
-        antiMatterElement.style.display="flex";
-        addStar(100);
-        moveSpaceShip();
-        createAsteroid();
-        mobileControls();
-        startDistanceScore();
-        createAntiMatterElement()
-    })
+            antiMatterElement.style.display="flex";
+            playScreen.style.display="none"
+            addStar(100);
+            moveSpaceShip();
+            createAsteroid();
+            mobileControls();
+            startDistanceScore();
+            createAntiMatterElement()
+    })  
 }
 
 /**

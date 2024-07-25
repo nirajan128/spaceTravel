@@ -13,7 +13,7 @@
         <div class="contents">
             <h1 class="text-light orbitron gameName">SPACETRAVEL</h1>
         </div>
-        <button class="startButton btn btn-primary space-mono-bold">START</button>
+        <button class="startButton btn btn-primary space-mono-bold">PlAY</button>
         <a href="https://github.com/nirajan128" class="space-mono-regular credit ">@NIRAJAN SHRESTHA 000934040</a>
         
     </div>
@@ -52,24 +52,83 @@
 
     <div id="gameOver" class="gameOver bg-light">
         <div class="g-container d-flex justify-content-center flex-column align-items-center bg-light">
-            <h1>Game over</h1>
-            <h4 id="scoreDetail"></h4>
-            <h4 id="matterDetail"></h4>
-            <button class="btn btn-success mb-2" id="restart">Restart</button>
+            <h3 class="orbitron text-danger">Game over</h3>
+            <p class="space-mono-bold" id="scoreDetail"></p>
+            <p class="space-mono-bold" id="matterDetail"></p>
+            <button class="btn btn-success mb-2 startButton" id="restart">Restart</button>
         </div>
         
     </div>
     <div id="travel">
         <div class="content d-flex flex-row text-light justify-content-between">
-            <p><b>You travelled: </b></p>
-            <p id="distance"></p>
+            <p class="space-mono-bold"><b>You travelled: </b></p>
+            <p id="distance" class="space-mono-bold text-success"></p>
         </div>
     </div>
 
     <div id="antiMatter">
         <div class="content d-flex flex-row text-light justify-content-between">
-            <p>AntiMatter: </p>
-            <p id="antiMatterValue"></p>
+            <p class="space-mono-bold">AntiMatter: </p>
+            <p class="space-mono-bold text-success" id="antiMatterValue"></p>
+        </div>
+    </div>
+
+    <div id="gameInfo" class="gameInfo">
+        
+        <div class="container d-flex  flex-column justify-content-center align-items-center infoScreen">
+            <h4 class="orbitron text-center p-2">HOW TO PLAY?</h4>
+            <div class="gameElem d-flex flex-column flex-lg-row justify-content-between infoScreen p-3 shadow">
+                
+                <div class="gElem1">
+                    <p class="space-mono-bold">SPACESHIP</p>
+                    <svg width="50" height="50" viewbox="0 0 100 100">
+                        <!-- Defs is a element container for reuseable element in svg, in this case i have uses linear gradient for space ship body
+                         The linear gradient has a special id and position x1,x2(starting position from left),y1,y2(ending position at right) to detarmine the position
+                         each stop elemnt defines the color and position within the gradient, offset is used to determine the gradient length
+                         i have use 0% start, 50% between, 100% end and used style property to have colors and opacity. stop keyword is used for linear gradients  -->
+                        <defs>
+                            <linearGradient id="gElemGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                                <stop offset="0%" style="stop-color:rgba(131,58,180,1);stop-opacity:1" />
+                                <stop offset="50%" style="stop-color:rgba(253,29,29,1);stop-opacity:1" />
+                                <stop offset="100%" style="stop-color:rgba(252,176,69,1);stop-opacity:1" />
+                            </linearGradient>
+        
+                        </defs>
+                        <g>
+                            <!-- Body -->
+                         <circle cx="50" cy="50" r="50" fill="url(#gElemGradient)"></circle>
+                         <circle cx="50" cy="50" r="20" fill="grey"></circle>
+                        </g>
+                    </svg>
+                   
+                </div>
+                <div class="gElem2">
+                    <p class="space-mono-bold">ASTEROID</p>
+                    <svg width="58" height="58" viewBox="0 0 100 100">
+                        <linearGradient id="gElemGradient2" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color: #555; stop-opacity: 1" />
+                            <stop offset="100%" style="stop-color: #333; stop-opacity: 1" />
+                        </linearGradient>
+                       <rect height="58" width="58" rx="3" ry="4" fill="url(#gElemGradient2)"></rect>
+                    </svg>  
+                </div>
+                <div class="gElem3">
+                    <p class="space-mono-bold">ANTIMATTER</p>
+                     <svg width="25" height="25" viewbox="0 0 25 25">
+                        <circle r="25" fill="green"></circle>
+                     </svg>
+                </div>
+            </div>
+            <div class="info infoScreen p-2 mt-3">
+                <p class="space-mono-bold">Game Instruction:</p>
+                <ul>
+                    <li class="space-mono-regular"><span class="space-mono-bold">Objective: </span> Dodge the asteroids with your spaceship.</li>
+                    <li class="space-mono-regular"><span class="space-mono-bold">Game Over: </span> If an asteroid hits your spaceship, the game is over.</li>
+                    <li class="space-mono-regular"><span class="space-mono-bold">Collect Points: </span>  Click on the antiMatter to collect points.</li>
+                    <li class="space-mono-regular"><span class="space-mono-bold">Controls: </span> Use the left and right buttons to move the spaceship.</li>
+                </ul>
+            </div>
+            <button class="playButton btn btn-primary space-mono-bold mb-3">START</button>
         </div>
     </div>
 
