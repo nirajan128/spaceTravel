@@ -1,3 +1,8 @@
+# Space Travel
+
+## Description
+Space Travel is an exciting and interactive web-based game where you navigate a spaceship to dodge asteroids and collect points. Your spaceship can move left or right, and your goal is to avoid asteroids and click on green elements to gather points. The game tracks your progress with two labels: one for the distance traveled and one for the score points collected.
+
 ## Technologies Used
 - **HTML**: The structure and content of the game are defined using HTML.
 - **CSS**: The styling and layout of the game elements are handled using CSS.
