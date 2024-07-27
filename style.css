@@ -1,3 +1,6 @@
+/* @Author: Nirajan Shrestha - 000934040
+   July 27, 2024
+*/
 @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap');
 *{
@@ -6,9 +9,9 @@
     box-sizing: border-box;
 }
 
+/* Fonts */
 .orbitron {
   font-family: "Orbitron", sans-serif;
-  font-optical-sizing: auto;
   font-weight: 700;
   font-style: normal;
 }
@@ -25,6 +28,7 @@
   font-style: normal;
 }
 
+/* FOnts sizes for smaller screen */
 h1{
   font-size: 2em !important;
 }
@@ -40,6 +44,7 @@ p, li, ul{
 a{
   font-size: 0.6rem;
 }
+
 /* Start screen of the game */
 .startScreen{
   position: relative;
@@ -112,7 +117,7 @@ a{
 }
 
 
-/* asteroid */
+/* asteroid and fuel */
 .asteroid{
   position: absolute;
   top: 0;
@@ -123,7 +128,7 @@ a{
   top: 0;
 }
 
-/* mobile-controls */
+/* mobile-controls for smaller screen */
 .controls{
   position: absolute;
   top: 77vh;
@@ -138,6 +143,7 @@ a{
   width: 100vw;
 }
 
+/* Styles for info screen */
 .gameInfo{
   position: relative;
   width: 100vw;
@@ -176,10 +182,21 @@ a{
   animation: floating 3s ease-in-out infinite;
 }
 
+
+
 .credit{
   position: absolute;
-  top: 80vh;
+  top: 93vh;
+
 }
+.creditInfo{
+  position: absolute;
+  top: 92vh;
+  font-size: 0.4em;
+  left: 33vw;
+}
+
+/* ANimations */
 @keyframes rotate {
   0% {
     transform: translateX(-50%) rotate(0deg);
@@ -206,8 +223,20 @@ a{
   }
 }
 
-/* Fuel */
+@keyframes scaleAnimation {
+  0% {
+      transform: scale(1);
+  }
+  50% {
+      transform: scale(1.2);
+  }
+  100% {
+      transform: scale(1);
+  }
+}
 
+
+/* Media quries */
 @media (min-width:769px){
   .controls{
     display: none !important;
@@ -219,7 +248,7 @@ a{
     font-size: 1.75rem;
   }
 
-  p,li,ul,a{
+  p,li,ul{
     font-size: 1.125rem;
   }
 
@@ -234,6 +263,10 @@ a{
 
   .startButton, .playButton{
     font-size: 1.125rem;
+  }
+
+  .creditInfo{
+    left: 45vw;
   }
 }
 

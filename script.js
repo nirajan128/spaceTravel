@@ -1,8 +1,12 @@
+/* @Author: Nirajan Shrestha
+   July 27,2024 
+*/
 
+/* Required HTML elemnts */
 const container = document.getElementById("game-space");
 const spaceShip = document.getElementById("spaceShip");
 const leftArrow = document.getElementById("leftArrow");
-const playScreen = document.getElementById("gameInfo");
+const infoScreen = document.getElementById("gameInfo");
 const rightArrow = document.getElementById("rightArrow");
 const gameOver = document.getElementById("gameOver");
 const restartBtn = document.getElementById("restart");
@@ -13,6 +17,7 @@ const matterDetail = document.getElementById("matterDetail");
 const antiMatterElement = document.getElementById("antiMatter");
 const anitMatterScore = document.getElementById("antiMatterValue");
 
+/* Gloabl VAriables */
 let distanceValue = 0.0;
 let distanceInterval;
 let matterValue = 0;
@@ -20,23 +25,33 @@ let fuelInterval;
 let isGameOver = false;
 
 
+
+//Calls startGame method when page is loaded
 window.addEventListener("DOMContentLoaded", startGame)
 
+/**
+ * Starts the game when startButton is clicked, hides thestartScreen ,displays the info screen by setting display styles to none and block
+ */
 function startGame(){
     document.querySelector(".startButton").addEventListener('click', ()=>{
         console.log("clicked")
         document.getElementById("startScreen").style.display="none";  
-        playScreen.style.display="flex"
+        infoScreen.style.display="flex"
         playGame();
     })
 }
 
+/**
+ * This method starts the game when playButton is clicked, sets the game-space display  to block to display the game screen
+ * and dispalys the the value, spaceship, and antimatteer, hides the info screen and 
+ * calls all required methods.
+ */
 function playGame(){
     document.querySelector(".playButton").addEventListener('click', ()=>{
-        document.getElementById("game-space").style.display="block";
+        container.style.display="block";
         distanceValueContainer.style.display="block";
             antiMatterElement.style.display="flex";
-            playScreen.style.display="none"
+            infoScreen.style.display="none"
             addStar(100);
             moveSpaceShip();
             createAsteroid();
@@ -170,6 +185,7 @@ function createAsteroid(){
      asteroid.setAttribute("width", `${randomRockWidth}`);
      asteroid.setAttribute("height", `${randomRockHeight}`);
      asteroid.setAttribute("viewBox", `0 0 ${randomRockWidth} ${randomRockHeight} `);
+     asteroid.style.animation="rotate 5s ease-in infinite"
 
     
      //random position for svg - random sizes between 0 and windows(screen) width
@@ -191,6 +207,12 @@ function createAsteroid(){
     },2000)
 }
 
+
+/**
+ * Same logic as creating asteroid, but a cick eventlistner is added to it  which incemremnts the matter value by 1 when clicked,
+ * eanitimatter element is created in every 5sec.
+ * finally calls antimatterfall method for each anitimatter element
+ */
 function createAntiMatterElement(){
     setInterval(()=>{
         const antiMatterContainer = document.createElementNS("http://www.w3.org/2000/svg", 'svg');
@@ -203,6 +225,7 @@ function createAntiMatterElement(){
      antiMatterContainer.setAttribute("width", `${randomFuelWidth}`);
      antiMatterContainer.setAttribute("height", `${randomFuelHeight}`);
      antiMatterContainer.setAttribute("viewBox", `0 0 25 25`);
+     antiMatterContainer.style.animation="scaleAnimation 2s ease-in infinite"
 
 
      antiMatter.setAttribute("r", "25");
@@ -215,7 +238,8 @@ function createAntiMatterElement(){
      antiMatterContainer.style.left = `${Math.random() * window.innerWidth}px`;
      antiMatterContainer.style.top= "-100px";
 
-       
+
+     //When an anttimatter is clicked add 1 to the matter value and remove it  
      antiMatterContainer.addEventListener("click", (e)=>{
         console.log("damnFuel");
         let node= e.target
@@ -227,7 +251,7 @@ function createAntiMatterElement(){
      antiMatterContainer.appendChild(antiMatter);
      container.appendChild(antiMatterContainer);
      antiMatterFall(antiMatterContainer)
-    },5000)
+    },5000) //5 sec
     
 }
 
@@ -288,10 +312,13 @@ function antiMatterFall(antiMatterContainer){
     
 } 
 
-
+/**
+ * Updates the score by setting innerHTML of antiMatterScore to matterValue
+ */
 function updateMatterScore(){
     anitMatterScore.innerHTML = matterValue;
 }
+
 /**
  * This method stops the interval for distance and fuel
  */
