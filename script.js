@@ -29,6 +29,12 @@ let isGameOver = false;
 //Calls startGame method when page is loaded
 window.addEventListener("DOMContentLoaded", startGame)
 
+
+
+function crosshairCursor(){
+    document.body.style.cursor = 'crosshair';
+}
+
 /**
  * Starts the game when startButton is clicked, hides thestartScreen ,displays the info screen by setting display styles to none and block
  */
@@ -53,6 +59,7 @@ function playGame(){
             antiMatterElement.style.display="flex";
             infoScreen.style.display="none"
             addStar(100);
+            crosshairCursor();
             moveSpaceShip();
             createAsteroid();
             mobileControls();
@@ -98,6 +105,7 @@ function addStar(numberOfStar){
 }
 
 
+
 /**
  * This method moves the spaceship to right or left, it uses "keydown" eventlistner which is a listner for when user presses a key,
  * an arrow function used to determined what happens when a key is pressed by user.
@@ -106,6 +114,25 @@ function addStar(numberOfStar){
  * if the key is ArrowRight change the position of space ship accordings and if it is ArrowLeft change the position accordingly
  */
 function moveSpaceShip(){
+    document.addEventListener("mousemove", (e) => {
+        let shipWidth = spaceShip.offsetWidth; // width of the ship
+        let screenWidth = window.innerWidth; // gets the width value of the whole screen
+
+        // Calculate the new left position of the spaceship
+        let newLeftPosition = e.clientX - (shipWidth / 2);
+
+        // Ensure the spaceship does not go off screen
+        if (newLeftPosition < 0) {
+            newLeftPosition = 0;
+        } else if (newLeftPosition + shipWidth > screenWidth) {
+            newLeftPosition = screenWidth - shipWidth;
+        }
+
+        // Update the spaceship's position
+        spaceShip.style.left = `${newLeftPosition}px`;
+    });
+
+        
     document.addEventListener("keydown", (e)=>{
           console.log(e.key); //check which key is pressed
           
@@ -121,10 +148,10 @@ function moveSpaceShip(){
           let movementValue = 10; //value to move when a key is pressed
           
           //if event.key is arrowLeft and ships currnet position is gretaer tha 0 move the ship to left value (shipCurrentPosition - movement value)
-          if(e.key==="ArrowLeft" && shipLeftPosition>0){ //ensures that the spaceship does not go off screen
+          if(e.key==="ArrowLeft" || e.key == "a" && shipLeftPosition>0){ //ensures that the spaceship does not go off screen
             spaceShip.style.left = `${shipLeftPosition - movementValue}px` //shipsLeftposition - movement value which shifts the space ship to left
           }
-          else if(e.key==="ArrowRight" && shipLeftPosition + shipWidth < screenWidth){ //ensures that the spaceship does not go off screen
+          else if(e.key==="ArrowRight" || e.key == "d" && shipLeftPosition + shipWidth < screenWidth){ //ensures that the spaceship does not go off screen
             spaceShip.style.left = `${shipLeftPosition + movementValue}px` //shipsLeftPosition + movementValue which shifts the ship to the right
           }
 
@@ -134,30 +161,49 @@ function moveSpaceShip(){
 /**This method contains click eventlistner for arrow left and right for mobile which changes the position of spacesphip according,
  * follows the same logic as moveSpaceShip.
  */
-function mobileControls(){
-
-    let shipWidth = spaceShip.offsetWidth; //width of the ship
+function mobileControls() {
+    let shipWidth = spaceShip.offsetWidth; // width of the ship
     console.log(shipWidth);
-    
-    let screenWidth = window.innerWidth; //gets the width value of the whole screen
+
+    let screenWidth = window.innerWidth; // gets the width value of the whole screen
     console.log(screenWidth);
 
-    let movementValue = 5; //value to move when a key is pressed
-    leftArrow.addEventListener("click", ()=>{
-        let shipLeftPosition = spaceShip.offsetLeft; //gets the initial oeft position of spaceShip
-        console.log(shipLeftPosition);
-        if(shipLeftPosition>0){
-            spaceShip.style.left = `${shipLeftPosition - movementValue}px`
-        }
-      });
+    let movementValue = 5; // value to move when a key is pressed
 
-      rightArrow.addEventListener("click", ()=>{
-        let shipLeftPosition = spaceShip.offsetLeft; //gets the initial oeft position of spaceShip
+    leftArrow.addEventListener("click", () => {
+        let shipLeftPosition = spaceShip.offsetLeft; // gets the initial left position of spaceShip
         console.log(shipLeftPosition);
-        if(shipLeftPosition + shipWidth < screenWidth){
-            spaceShip.style.left = `${shipLeftPosition + movementValue}px`
+        if (shipLeftPosition > 0) {
+            spaceShip.style.left = `${shipLeftPosition - movementValue}px`;
         }
-      })
+    });
+
+    rightArrow.addEventListener("click", () => {
+        let shipLeftPosition = spaceShip.offsetLeft; // gets the initial left position of spaceShip
+        console.log(shipLeftPosition);
+        if (shipLeftPosition + shipWidth < screenWidth) {
+            spaceShip.style.left = `${shipLeftPosition + movementValue}px`;
+        }
+    });
+
+    // Add touch event listeners for finger control
+    document.addEventListener("touchstart", handleTouchMove);
+    document.addEventListener("touchmove", handleTouchMove);
+
+    function handleTouchMove(e) {
+        let touch = e.touches[0];
+        let shiftLeftPosition = touch.clientX - (shipWidth / 2);
+
+        // Ensure the spaceship does not go off screen
+        if (shiftLeftPosition < 0) {
+            shiftLeftPosition = 0;
+        } else if (shiftLeftPosition + shipWidth > screenWidth) {
+            shiftLeftPosition = screenWidth - shipWidth;
+        }
+
+        // Update the spaceship's position
+        spaceShip.style.left = `${shiftLeftPosition}px`;
+    }
 }
 
 /* This method uses set interval, runs the code inside it every two second
@@ -362,8 +408,8 @@ function hasCollided(spaceShip, asteroid){
 function gameIsOver(){
     isGameOver = true;
     gameOver.style.display = "block";
-    scoreDetail.innerHTML = " You travlled " + distanceValue.toFixed(1) + " LY";
-    matterDetail.innerHTML = " collected " + matterValue + " antiMatters";
+    scoreDetail.innerHTML = " You traveled " + distanceValue.toFixed(1) + " LY";
+    matterDetail.innerHTML = " AntiMatters Collected: " + matterValue 
     restartBtn.addEventListener("click", restartGame);
     stopIntervals();
 }
