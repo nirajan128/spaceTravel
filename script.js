@@ -31,10 +31,6 @@ window.addEventListener("DOMContentLoaded", startGame)
 
 
 
-function crosshairCursor(){
-    document.body.style.cursor = 'crosshair';
-}
-
 /**
  * Starts the game when startButton is clicked, hides thestartScreen ,displays the info screen by setting display styles to none and block
  */
@@ -59,7 +55,6 @@ function playGame(){
             antiMatterElement.style.display="flex";
             infoScreen.style.display="none"
             addStar(100);
-            crosshairCursor();
             moveSpaceShip();
             createAsteroid();
             mobileControls();
@@ -114,24 +109,7 @@ function addStar(numberOfStar){
  * if the key is ArrowRight change the position of space ship accordings and if it is ArrowLeft change the position accordingly
  */
 function moveSpaceShip(){
-    document.addEventListener("mousemove", (e) => {
-        let shipWidth = spaceShip.offsetWidth; // width of the ship
-        let screenWidth = window.innerWidth; // gets the width value of the whole screen
-
-        // Calculate the new left position of the spaceship
-        let newLeftPosition = e.clientX - (shipWidth / 2);
-
-        // Ensure the spaceship does not go off screen
-        if (newLeftPosition < 0) {
-            newLeftPosition = 0;
-        } else if (newLeftPosition + shipWidth > screenWidth) {
-            newLeftPosition = screenWidth - shipWidth;
-        }
-
-        // Update the spaceship's position
-        spaceShip.style.left = `${newLeftPosition}px`;
-    });
-
+  
         
     document.addEventListener("keydown", (e)=>{
           console.log(e.key); //check which key is pressed
@@ -148,10 +126,10 @@ function moveSpaceShip(){
           let movementValue = 10; //value to move when a key is pressed
           
           //if event.key is arrowLeft and ships currnet position is gretaer tha 0 move the ship to left value (shipCurrentPosition - movement value)
-          if(e.key==="ArrowLeft" || e.key == "a" && shipLeftPosition>0){ //ensures that the spaceship does not go off screen
+          if(e.key==="ArrowLeft" && shipLeftPosition>0){ //ensures that the spaceship does not go off screen
             spaceShip.style.left = `${shipLeftPosition - movementValue}px` //shipsLeftposition - movement value which shifts the space ship to left
           }
-          else if(e.key==="ArrowRight" || e.key == "d" && shipLeftPosition + shipWidth < screenWidth){ //ensures that the spaceship does not go off screen
+          else if(e.key==="ArrowRight" && shipLeftPosition + shipWidth < screenWidth){ //ensures that the spaceship does not go off screen
             spaceShip.style.left = `${shipLeftPosition + movementValue}px` //shipsLeftPosition + movementValue which shifts the ship to the right
           }
 
@@ -186,24 +164,6 @@ function mobileControls() {
         }
     });
 
-    // Add touch event listeners for finger control
-    document.addEventListener("touchstart", handleTouchMove);
-    document.addEventListener("touchmove", handleTouchMove);
-
-    function handleTouchMove(e) {
-        let touch = e.touches[0];
-        let shiftLeftPosition = touch.clientX - (shipWidth / 2);
-
-        // Ensure the spaceship does not go off screen
-        if (shiftLeftPosition < 0) {
-            shiftLeftPosition = 0;
-        } else if (shiftLeftPosition + shipWidth > screenWidth) {
-            shiftLeftPosition = screenWidth - shipWidth;
-        }
-
-        // Update the spaceship's position
-        spaceShip.style.left = `${shiftLeftPosition}px`;
-    }
 }
 
 /* This method uses set interval, runs the code inside it every two second
